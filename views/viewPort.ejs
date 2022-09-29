@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        /* Set a style for all buttons */
+        
+        body {
+            background-color: #65d356e1;
+        }
+        
+        button {
+            background-color: #00e1ff;
+            color: rgb(0, 0, 0);
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: auto;
+            opacity: 0.9;
+        }
+        
+        button:hover {
+            opacity: 0.5;
+        }
+        
+        #add {
+            background-color: lightblue;
+        }
+        
+        #getValues {
+            background-color: darkblue;
+        }
+        
+        #clearArray {
+            background-color: red;
+        }
+        
+        div.gallery {
+            border: 1px solid #ccc;
+        }
+        
+        div.gallery:hover {
+            border: 1px solid #777;
+        }
+        
+        div.gallery img {
+            width: 100%;
+            height: auto;
+        }
+        
+        div.desc {
+            padding: 15px;
+            text-align: center;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        .responsive {
+            padding: 0 6px;
+            float: left;
+            width: 24.99999%;
+        }
+        
+        @media only screen and (max-width: 700px) {
+            .responsive {
+                width: 49.99999%;
+                margin: 6px 0;
+            }
+        }
+        
+        @media only screen and (max-width: 500px) {
+            .responsive {
+                width: 100%;
+            }
+        }
+        
+        .clearfix:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+
+<body>
+    <h3 id="id1">Image in different Views -->
+
+    </h3>
+    <% for(var i = 1; i < data.length; i++) {%>
+        -
+        <!-- <%=data[i]%> -->
+        <img src=<%=data[i]%>/>
+        <% } %>
+            <form method="post" action="/success" name="continue-to-login-page-after-signup ">
+                <button id="btn1" onclick="document.getElementById('id02').style.display='block'" style="width:100%;">LogOut</button>
+            </form>
+</body>
+
+</html>

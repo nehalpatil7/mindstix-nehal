@@ -1,0 +1,508 @@
+<!DOCTYPE html lang="english">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Solr Search</title>
+    <script src="https://kit.fontawesome.com/afd6aa68df.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/json5@^2.0.0/dist/index.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.11/angular.min.js"></script>
+    <style>
+        * {
+            outline: none;
+        }
+
+        html,
+        body {
+            height: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            margin: 0;
+            background-color: #ffd8d8;
+        }
+
+        .tb {
+            display: table;
+            width: 100%;
+        }
+
+        .td {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        input,
+        button {
+            color: #fff;
+            font-family: Nunito;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            background-color: transparent;
+        }
+
+        #labelOne {
+            position: absolute;
+            margin-top: 10px;
+        }
+
+        #labelTwo {
+            position: absolute;
+            margin-top: 50px;
+            margin-left: 20px;
+        }
+
+        #cover {
+            position: absolute;
+            top: 20%;
+            left: 0;
+            width: 550px;
+            padding: 35px;
+            margin: -83px auto auto 0;
+            background-color: #ff7575;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px #ff7c7c, 0 0 0 20px #ffffffeb;
+            transform: scale(0.6);
+        }
+
+        #display_box {
+            display: flex;
+            flex-direction: column;
+            list-style-type: none;
+            margin: 15% 2% 0 50%;
+            padding: 0;
+            overflow: hidden;
+            background: #303134;
+            color: aliceblue;
+            border-radius: 0 0 24px 24px;
+            box-shadow: 0 4px 6px 0 #171717;
+            border: 2;
+            padding-bottom: 4px;
+        }
+
+        form {
+            height: 96px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            height: 96px;
+            font-size: 60px;
+            line-height: 1;
+        }
+
+        input[type="text"]::placeholder {
+            color: #e16868;
+        }
+
+        #s-cover {
+            width: 1px;
+            padding-left: 35px;
+        }
+
+        button {
+            position: relative;
+            display: block;
+            width: 84px;
+            height: 96px;
+            cursor: pointer;
+        }
+
+        #s-circle {
+            position: relative;
+            top: -8px;
+            left: 0;
+            width: 43px;
+            height: 43px;
+            margin-top: 0;
+            border-width: 15px;
+            border: 15px solid #fff;
+            background-color: transparent;
+            border-radius: 50%;
+            transition: 0.5s ease all;
+        }
+
+        button span {
+            position: absolute;
+            top: 68px;
+            left: 43px;
+            display: block;
+            width: 45px;
+            height: 15px;
+            background-color: transparent;
+            border-radius: 10px;
+            transform: rotateZ(52deg);
+            transition: 0.5s ease all;
+        }
+
+        button span:before,
+        button span:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 45px;
+            height: 15px;
+            background-color: #fff;
+            border-radius: 10px;
+            transform: rotateZ(0);
+            transition: 0.5s ease all;
+        }
+
+        #s-cover:hover #s-circle {
+            top: -1px;
+            width: 67px;
+            height: 15px;
+            border-width: 0;
+            background-color: #fff;
+            border-radius: 20px;
+        }
+
+        #s-cover:hover span {
+            top: 50%;
+            left: 56px;
+            width: 25px;
+            margin-top: -9px;
+            transform: rotateZ(0);
+        }
+
+        #s-cover:hover button span:before {
+            bottom: 11px;
+            transform: rotateZ(52deg);
+        }
+
+        #s-cover:hover button span:after {
+            bottom: -11px;
+            transform: rotateZ(-52deg);
+        }
+
+        #s-cover:hover button span:before,
+        #s-cover:hover button span:after {
+            right: -6px;
+            width: 40px;
+            background-color: #fff;
+        }
+
+        .home-container {
+            margin-top: 50px;
+            width: 100%;
+            display: flex;
+            overflow: auto;
+            min-height: 100vh;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .home-hero {
+            background-color: rgb(189, 217, 228);
+            top: 34px;
+            right: 30px;
+            width: 500px;
+            border: 2px dashed rgba(120, 120, 120, 0.4);
+            height: 650px;
+            display: flex;
+            padding: var(--dl-space-space-threeunits);
+            position: absolute;
+            max-width: var(--dl-size-size-maxwidth);
+            min-height: 80vh;
+            align-items: center;
+            flex-direction: row;
+            justify-content: space-between;
+            overflow: scroll;
+        }
+
+        .home-hero-preInfo {
+            line-height: 30px;
+            float: left;
+        }
+
+        .home-hero-child {
+            line-height: 30px;
+            float: left;
+            overflow: inherit;
+        }
+
+        @media(max-width: 991px) {
+            .home-hero {
+                flex-direction: column;
+            }
+        }
+
+        @media(max-width: 767px) {
+            .home-hero {
+                padding-left: var(--dl-space-space-twounits);
+                padding-right: var(--dl-space-space-twounits);
+            }
+        }
+
+        @media(max-width: 479px) {
+            .home-hero {
+                padding-top: var(--dl-space-space-twounits);
+                padding-left: var(--dl-space-space-unit);
+                padding-right: var(--dl-space-space-unit);
+                padding-bottom: var(--dl-space-space-twounits);
+            }
+        }
+
+        #sortButtons {
+            float: left;
+            float: top;
+            margin-top: 150px;
+        }
+
+        #filterButtons {
+            margin-top: 240px;
+            margin-left: 400px;
+        }
+
+        /* The container */
+        .containerRadio {
+            margin-top: 20px;
+            margin-left: 20px;
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Hide the browser's default radio button */
+        .containerRadio input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Create a custom radio button */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+            border-radius: 50%;
+        }
+
+        /* On mouse-over, add a grey background color */
+        .container:hover input~.checkmark {
+            background-color: #ccc;
+        }
+
+        /* When the radio button is checked, add a blue background */
+        .containerRadio input:checked~.checkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the indicator (the dot/circle - hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the indicator (dot/circle) when checked */
+        .containerRadio input:checked~.checkmark:after {
+            display: block;
+        }
+
+        /* Style the indicator (dot/circle) */
+        .containerRadio .checkmark:after {
+            top: 9px;
+            left: 9px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+    <label id="labelOne">Type Something in the Search Box to view results</label>
+    <div id="cover">
+        <form method="get" action="#">
+            <div class="tb">
+                <div class="td" ng-app="myApp" ng-controller="myCtrl">
+                    <input type="text" ng-model="bad" ng-change="badri(bad)" id="searchBox" placeholder="Search"
+                        required>
+                </div>
+                <div class="td" id="s-cover">
+                    <div id="s-circle">
+                        <input type="button" value="submit" id="submitBtn" onclick="mouseClickFunc()">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <label id="labelTwo"><strong>METADATA</strong></label>
+    <div id="sortButtons">
+        <h2 class="containerRadio">Sort By</h2>
+        <label class="containerRadio">Popularity - High to Low
+            <input type="radio" name="sort" checked="true" value="Popularity desc">
+            <span class="checkmark"></span>
+        </label>
+        <label class="containerRadio">Popularity - Low to High
+            <input type="radio" name="sort" value="Popularity asc">
+            <span class="checkmark"></span>
+        </label>
+        <label class="containerRadio">Release_Date - Oldest First
+            <input type="radio" name="sort" value="Release_Date asc">
+            <span class="checkmark"></span>
+        </label>
+        <label class="containerRadio">Release_Date - Newest First
+            <input type="radio" name="sort" value="Release_Date desc">
+            <span class="checkmark"></span>
+        </label>
+    </div>
+
+    <div id="filterButtons">
+        <h2 class="containerRadio">Show Fields</h2>
+        <label class="containerRadio">Genre
+            <input type="checkbox" name="filter" value="Genre">
+            <span class="checkmark"></span>
+        </label>
+        <label class="containerRadio">Popularity
+            <input type="checkbox" name="filter" value="Popularity">
+            <span class="checkmark"></span>
+        </label>
+        <label class="containerRadio">Language
+            <input type="checkbox" name="filter" value="Original_Language">
+            <span class="checkmark"></span>
+        </label>
+    </div>
+
+    <div class="home-container">
+        <div class="home-hero" id="resultDiv">
+            <ul class="home-hero-child" id="resultList"></ul>
+        </div>
+    </div>
+    <script>
+        var app = angular.module("myApp", []);
+        app.controller("myCtrl", function ($scope) {
+            $scope.badri = function (v) {
+                if (v) {
+                    mouseClickFunc();
+                }
+                else {
+                    document.getElementById('resultList').textContent = 'No text entered';
+                    document.getElementById('labelTwo').innerHTML = `<strong>METADATA</strong>`;
+                }
+            }
+        });
+
+        // document.getElementById('filterButtons').addEventListener('click',mouseClickFunc);
+
+        window.addEventListener('keyup', function (event) {
+            if (event.keyCode === 13) {
+                if (!document.getElementById("searchBox").value == "") {
+                    mouseClickFunc();
+                } else {
+                    try {
+                        document.getElementById("resultList").innerHTML = "";
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+            }
+        });
+        async function mouseClickFunc() {
+            // alert("This will fetch the movies matching the entered name");
+            const url = "http://localhost:8989/solr/nodeAppCore2/query";
+            let format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+            let key = document.getElementById("resultDiv").value ?? "Title";
+            let val = document.getElementById("searchBox").value;
+            let checkedValueSort = document.querySelector('input[name="sort"]:checked').value;
+            const filterVal = new Set();
+            var checkboxes = document.getElementsByName('filter');
+            for (var checkbox of checkboxes) {
+                if (checkbox.checked) {
+                    filterVal.add(checkbox.value);
+                }
+            }
+
+            function SetToString(set, delim) {
+                let str = 'Title, Poster_Url,';
+                let i = 0;
+                let size = set.size;
+                set.forEach(function (elem) {
+                    str += elem;
+                    if (i++ < size - 1) str += delim;
+                });
+                return str;
+            }
+
+            const query = {
+                "q": format.test(val) ? `*:*` : `${key}:${val}`,
+                "facet": "true",
+                "facet.field": "Genre",
+                "sort": checkedValueSort ? checkedValueSort : "",
+                "fl": filterVal ? SetToString(filterVal, ',') : "Title, Poster_Url",
+            };
+            console.log("API called -> ", url);
+            console.log(query);
+
+            if (val) {
+                await axios({
+                    method: 'get',
+                    url: url,
+                    headers: {},
+                    params: query
+                })
+                    .then(function (response) {
+                        const data = response?.data?.response?.docs;
+                        let list = document.getElementById("resultList");
+                        if (data) {
+                            if (data.length <= 0) {
+                                document.getElementById("resultList").innerHTML = "No Search results Found";
+                                document.getElementById("labelTwo").innerHTML = `<strong>METADATA</strong><br>
+                                Total Results Found : 0<br>
+                                Exact Match Found : false<br>
+                                Query Time: 0 ms`;;
+                            } else {
+                                document.getElementById("resultList").innerHTML = "";
+                                document.getElementById("labelTwo").innerHTML = "";
+                                data.forEach((e) => {
+                                    let li = document.createElement("li");
+                                    let objLen = Object.keys(e).length;
+                                    if(objLen > 2){
+                                        let HTMLstr = `<a href="${e.Poster_Url}" target=_blank>${e.Title}</a>`;
+                                        for (const property in e) {
+                                            if(property != 'Title' && property != 'Poster_Url'){
+                                                HTMLstr += `<br><strong>${property}:</strong> ${e[property]}`;
+                                            }
+                                        }
+                                        li.innerHTML = HTMLstr;
+                                    } else {
+                                        li.innerHTML = `<a href="${e.Poster_Url}" target=_blank>${e.Title}</a>`;
+                                    }
+                                    list.appendChild(li);
+                                });
+                                console.log(response)
+                                document.getElementById("labelTwo").innerHTML = `<strong>METADATA</strong><br>
+                                Total Results Found : ${response?.data?.response?.numFound}<br>
+                                Exact Match Found : ${response?.data?.response?.numFoundExact}<br>
+                                Query Time: ${response?.data?.responseHeader?.QTime} ms`;
+                            }
+                        }
+                        document.getElementById("resultDiv").scrollTop = document.getElementById("resultList").offsetTop;
+                    })
+                    .catch(function (error) {
+                        console.log("API call error", error);
+                        document.getElementById("resultDiv").innerHTML = "Search Results not Found";
+                        document.getElementById("labelTwo").innerHTML = `<strong>Data Error</strong>`;
+                    });
+            }
+        }
+    </script>
+</body>
+
+</html>

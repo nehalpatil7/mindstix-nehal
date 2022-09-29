@@ -1,0 +1,19 @@
+{
+    "env": {
+        "port": 5001,
+        "mongo_Atlas_username": "MongoDbNodeJS",
+        "mongo_Atlas_Password": "MongoDbNodeJS",
+        "mongo_Atlas_dbname": "MongoDbNodeJS",
+        "base_url": "cdn.contentstack.io",
+        "stack_api_key": "bltf59a0f025a7625f9",
+        "stack_delivery_token": "cs4b189d5450d9d1b403121ef2",
+        "stack_environment": "dev",
+        "content_type_uid": "test",
+        "lang": "zh-tw",
+        "entry_uid": "blt75c954441490eab8",
+        "keyword": "entry_sku",
+        "AZURE_STORAGE_CONNECTION_STRING": "DefaultEndpointsProtocol=https;AccountName=mindstixecomsa;AccountKey=QkK5QRF2FL5bhx5P7I0NFpzYcgrhepMDqwm4tigMa0WKNouyE6BWZqnlDRvJqYIHv/eHFTMWIUF1+AStH0h9Eg==;EndpointSuffix=core.windows.net",
+        "AZURE_STORAGE_ACCOUNT_NAME": "mindstixecomsa",
+        "AZURE_STORAGE_ACCOUNT_KEY": "QkK5QRF2FL5bhx5P7I0NFpzYcgrhepMDqwm4tigMa0WKNouyE6BWZqnlDRvJqYIHv/eHFTMWIUF1+AStH0h9Eg=="
+    }
+}

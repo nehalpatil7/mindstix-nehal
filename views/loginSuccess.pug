@@ -1,0 +1,194 @@
+doctype html
+html
+    head
+        style.
+            /* Set a style for all buttons */
+            button {
+            background-color: #04AA6D;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: auto;
+            opacity: 0.9;
+            }
+            button:hover {
+            opacity: 0.5;
+            }
+            #add {
+            background-color: lightblue;
+            color: black;
+            }
+            #getValues {
+            background-color: darkblue;
+            }
+            .sub{
+                background-color: black;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: auto;
+                opacity: 0.9;
+            }
+            .pdp{
+                background-color: cyan;
+                color: black;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: auto;
+                opacity: 0.9;
+            }
+            .actionSelect {
+                background-color: #2196F3;
+                padding: 8px;
+            }
+            .selec {
+                padding: 8px;
+            }
+            #clearArray {
+            background-color: red;
+            }
+            div.gallery {
+            border: 1px solid #ccc;
+            }
+            div.gallery:hover {
+            border: 1px solid #777;
+            }
+            div.gallery img {
+            width: 100%;
+            height: auto;
+            }
+            div.desc {
+            padding: 15px;
+            text-align: center;
+            }
+            * {
+            box-sizing: border-box;
+            }
+            .responsive {
+            padding: 0 6px;
+            float: left;
+            width: 24.99999%;
+            }
+            @media only screen and (max-width: 700px) {
+            .responsive {
+            width: 49.99999%;
+            margin: 6px 0;
+            }
+            }
+            @media only screen and (max-width: 500px) {
+            .responsive {
+            width: 100%;
+            }
+            }
+            .clearfix:after {
+            content: "";
+            display: table;
+            clear: both;
+            }
+    body
+        h1 Logged in to #{logged_in_username}'s account
+        h4 #{fetched_content.title}
+        .responsive
+            .gallery
+                a(target='_blank' href=`${fetched_content.imagegroup[0].image1.url.url}`)
+                    img(src=`${fetched_content.imagegroup[0].image1.url.url}` alt='Cinque Terre' width='600' height='400')
+                .desc #{fetched_content.imagegroup[0].image1.alt_text}
+        .responsive
+            .gallery
+                a(target='_blank' href=`${fetched_content.imagegroup[1].image1.url.url}`)
+                    img(src=`${fetched_content.imagegroup[1].image1.url.url}` alt='Forest' width='600' height='400')
+                .desc #{fetched_content.imagegroup[1].image1.alt_text}
+        .responsive
+            .gallery
+                a(target='_blank' href=`${fetched_content.imagegroup[2].image1.url.url}`)
+                    img(src=`${fetched_content.imagegroup[2].image1.url.url}` alt='Northern Lights' width='600' height='400')
+                .desc #{fetched_content.imagegroup[2].image1.alt_text}
+        .responsive
+            .gallery
+                a(target='_blank' href=`${fetched_content.imagegroup[3].image1.url.url}`)
+                    img(src=`${fetched_content.imagegroup[3].image1.url.url}` alt='Mountains' width='600' height='400')
+                .desc #{fetched_content.imagegroup[3].image1.alt_text}
+        .clearfix
+        div(style='padding:6px;')
+            h3 The below paragraph is being fetched from <strong>CONTENT-STACK</strong> and it's <strong>CONTENT - TYPE</strong> is <strong>Multi-Line Textbox</strong>
+            p #{fetched_content.description}
+        
+        h2 Enter product SKU's below to fetch their details
+        label(for='codes') Enter code and click ADD and after adding all codes, click GET VALUES
+        br
+        br
+        input#inputbox.selec(type='text' name='inputbox' placeholder='enter product SKU')
+        br
+        br
+        button#add(type='button' name='add') Add
+        label .   .   .
+        button#clearArray(type='button' name='flushArray') Flush Array
+        br
+        form(method='get' action='/displayArrayValues' name='continue-after-calling-array-api')
+            input#arrayInput(type='hidden' name='arrayInput' value='')
+            label.actionSelect(for='actions') Choose an ACTION:
+            label   -=>  
+            select#actions.selec(name='actions' required='')
+                option(value='' disabled selected hidden) Select One Action
+                option(value='getValues') Get Values of Entries
+                option(value='viewPort') viewPort Check for Responsiveness
+            br
+            input#send.sub(type='submit' name='send' value='Submit' style='width:37%;' disabled='true')
+            br
+            label Array => 
+            span#screen
+            br
+            br
+            br
+        form(method='get' action='/getJsonRTE' name='continue-calling-another-api')
+            input#send.pdp(type='submit' name='PDP' value='JSON RTE check' style='width:37%;')
+        form(method='get' action='/CMA' name='continue-calling-cma-api')
+            input#send.pdp(type='submit' name='commodityCenter' value='CMA Check' style='width:37%;')
+            
+        script.
+            var inputArray = [];
+            var input = document.getElementById('inputbox');
+            var screen = document.getElementById('screen');
+            var hiddenInput = document.getElementById('arrayInput');
+            
+            document.getElementById('add').onclick = function () {
+                if((input.value).length>0){
+                    inputArray.push(input.value);
+                    screen.innerHTML = inputArray;
+                    input.value = '';                    
+                    document.getElementById("send").disabled = false;
+                    document.getElementById('send').style.backgroundColor='#04AA6D';
+                }
+                else{
+                    screen.innerHTML = "Please enter a value";
+                }
+            };
+            document.getElementById('send').onclick = function () {
+                if(inputArray.length>0){
+                    screen.innerHTML = inputArray;
+                    hiddenInput.value = inputArray;
+                }
+                else{
+                    screen.innerHTML = "Array cannot be empty, please insert some values";
+                }
+            };
+            document.getElementById('clearArray').onclick = function () {
+                if(inputArray.length>0){
+                    inputArray = [];
+                    screen.innerHTML = "Array Flushed";
+                    document.getElementById("send").disabled = true;
+                    document.getElementById('send').style.backgroundColor='black';
+                }
+                else{
+                    screen.innerHTML = "Array already empty, cannot flush";
+                }
+            };
+
+        form(method='post' action='/success' name='continue-to-login-page-after-signup')
+            button#btn1(onclick="document.getElementById('id02').style.display='block'" style='width:100%;') LogOut

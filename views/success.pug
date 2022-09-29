@@ -1,0 +1,245 @@
+doctype html
+html
+  head
+    style.
+      body {font-family: Arial, Helvetica, sans-serif;}
+      * {box-sizing: border-box;}
+      /* Full-width input fields */
+      input[type=text], input[type=password] {
+      width: 100%;
+      padding: 15px;
+      margin: 5px 0 22px 0;
+      display: inline-block;
+      border: none;
+      background: #f1f1f1;
+      }
+      /* Add a background color when the inputs get focus */
+      input[type=text]:focus, input[type=password]:focus {
+      background-color: #ddd;
+      outline: none;
+      }
+      /* Set a style for all buttons */
+      button {
+      background-color: #04AA6D;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      opacity: 0.9;
+      }
+      button:hover {
+      opacity:1;
+      }
+      .solr{
+        color: white;
+        background-color: purple;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: 1px solid black;
+        cursor: pointer;
+        width: auto;
+        opacity: 0.8;
+      }
+      .dpay{
+        /* https://drive.google.com/file/d/1hCLR0rT1xdi9jJFKtVEWR_lX6s5GFBOV/view?usp=sharing */
+        background-color: pink;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: 1px solid black;
+        cursor: pointer;
+        width: auto;
+        opacity: 0.8;
+      }
+      .gpay{
+        /* https://drive.google.com/file/d/1hCLR0rT1xdi9jJFKtVEWR_lX6s5GFBOV/view?usp=sharing */
+        background-color: pink;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: 1px solid black;
+        cursor: pointer;
+        width: auto;
+        opacity: 0.8;
+      }
+      .apay{
+        /* https://drive.google.com/file/d/1hCLR0rT1xdi9jJFKtVEWR_lX6s5GFBOV/view?usp=sharing */
+        background-color: pink;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: 1px solid black;
+        cursor: pointer;
+        width: auto;
+        opacity: 0.8;
+      }
+      .ncron{
+        /* https://drive.google.com/file/d/1hCLR0rT1xdi9jJFKtVEWR_lX6s5GFBOV/view?usp=sharing */
+        background-color: cyan;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: 1px solid black;
+        cursor: pointer;
+        width: auto;
+        opacity: 0.8;
+      }
+      /* Extra styles for the cancel button */
+      .cancelbtn {
+      padding: 14px 20px;
+      background-color: #f44336;
+      }
+      /* Float cancel and signup buttons and add an equal width */
+      .cancelbtn, .signupbtn, .loginbtn {
+      float: left;
+      width: 50%;
+      }
+      /* Add padding to container elements */
+      .container {
+      padding: 16px;
+      }
+      /* The Modal (background) */
+      .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: #474e5d;
+      padding-top: 50px;
+      }
+      /* Modal Content/Box */
+      .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+      }
+      /* Style the horizontal ruler */
+      hr {
+      border: 1px solid #f1f1f1;
+      margin-bottom: 25px;
+      }
+      /* The Close Button (x) */
+      .close {
+      position: absolute;
+      right: 35px;
+      top: 15px;
+      font-size: 40px;
+      font-weight: bold;
+      color: #f1f1f1;
+      }
+      .close:hover,
+      .close:focus {
+      color: #f44336;
+      cursor: pointer;
+      }
+      /* Clear floats */
+      .clearfix::after {
+      content: "";
+      clear: both;
+      display: table;
+      }
+      /* Change styles for cancel button and signup button on extra small screens */
+      @media screen and (max-width: 300px) {
+      .cancelbtn, .signupbtn {
+      width: 100%;
+      }
+      }
+  body
+    h2 AFTER POST
+    //- if data.firstname
+    //-   h3#nameHeading hello #{data.firstname.toUpperCase()} from #{data.country.toUpperCase()}
+    //- else 
+    //-   h3 hello Unknown User from Unknown Country
+    button(onclick="document.getElementById('id00').style.display='block'" style='width:auto;') LOGIN
+    br
+    button(onclick="document.getElementById('id01').style.display='block'" style='width:auto;') SIGN UP
+    
+    
+    //- | //Login Functionality
+    #id00.modal
+      span.close(onclick="document.getElementById('id00').style.display='none'" title='Close Modal') ×
+      form.modal-content(action='/loginSuccess')
+        .container
+          h1 Please Login
+          p Please fill in the details to login.
+          hr
+          label(for='email')
+            b Email
+          input(type='text' placeholder='Enter Email' name='email' required='' autofocus='')
+          label(for='psw')
+            b Password
+          input(type='password' placeholder='Enter Password' name='psw' required='')
+          .clearfix
+            button.cancelbtn(type='button' onclick="document.getElementById('id00').style.display='none'") Cancel
+            button.loginbtn(type='submit') Login
+    
+    
+    //- | //Sign Up Functionality
+    #id01.modal
+      span.close(onclick="document.getElementById('id01').style.display='none'" title='Close Modal') ×
+      form.modal-content(action='/signupSuccess')
+        .container
+          h1 Sign Up
+          p Please fill in this form to create an account.
+          hr
+          label(for='email')
+            b Email
+          input(type='text' placeholder='Enter Email' name='email' required)
+          label(for='psw')
+            b Password
+          input(type='password' placeholder='Enter Password' name='psw' required)
+          label(for='psw-repeat')
+            b Repeat Password
+          input(type='password' placeholder='Repeat Password' name='psw_repeat' required)
+          p
+            | By creating an account you agree to our 
+            a(href='#' style='color:dodgerblue') Terms & Privacy
+            | .
+          .clearfix
+            button.cancelbtn(type='button' onclick="document.getElementById('id01').style.display='none'") Cancel
+            button.signupbtn(type='submit') Sign Up
+    
+    form(method='get' action='/searchHome' name='search-solr')
+      button.solr(type='submit' style='width:37%;') Search SOLR (simple)
+
+    form(method='get' action='/searchSuggest' name='search-solr')
+      button.solr(type='submit' style='width:37%;') Search SOLR (with Suggester)
+
+    form(method='get' action='/searchCloud' name='search-solr')
+      button.solr(type='submit' style='width:37%;') Search SOLR Cloud (with Suggester)
+
+    form(method='get' action='/direct_pay' name='payment-center-screen')
+      input#arrayInput(type='hidden' name='arrayInput' value='')
+      input#send.dpay(type='submit' name='send' value='Direct Pay' style='width:37%;')
+
+    form(method='get' action='/ccv_pay' name='payment-center-screen')
+      input#arrayInput(type='hidden' name='arrayInput' value='')
+      input#send.dpay(type='submit' name='send' value='CCV Prime' style='width:37%;')
+
+    form(method='get' action='/google_pay' name='payment-center-screen')
+      input#arrayInput(type='hidden' name='arrayInput' value='')
+      input#send.gpay(type='submit' name='send' value='Google Pay' style='width:37%;')
+
+    form(method='get' action='/apple_pay' name='payment-center-screen')
+      input#arrayInput(type='hidden' name='arrayInput' value='')
+      input#send.apay(type='submit' name='send' value='Apple Pay' style='width:37%;')
+
+    form(method='get' action='/cron-demo' name='node-cron-demo-screen')
+      input#send.ncron(type='submit' name='send' value='Node Cron Demo' style='width:30%;')
+
+    script.
+      var hiddenInput = document.getElementById('arrayInput');
+      document.getElementById('send').onclick = function () {
+        hiddenInput.value = (document.getElementById('nameHeading').innerHTML).substring(6);
+      };
+      // Get the modal
+      var modal = document.getElementById('id01');
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+      if (event.target == modal) {
+      modal.style.display = "none";
+      }
+      }

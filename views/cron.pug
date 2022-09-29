@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    style.
+      body {font-family: Arial, Helvetica, sans-serif;}
+      * {box-sizing: border-box;}
+      /* Set a style for all buttons */
+      button {
+      background-color: #04AA6D;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      opacity: 0.9;
+      }
+      button:hover {
+      opacity:1;
+      }
+      
+  body
+    h1 NPM - Cron Demo
+    if data
+      h3#nameHeading Transaction Success
+      h4#nameHeading Job took #{data} seconds to process
+    else 
+      h3#nameHeading Transaction failed
+      h4#nameHeading Job took #{data} seconds to process
+    br
